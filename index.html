@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Memos Display</title>
+<link rel="stylesheet"
+href="https://avgel.cn/usr/themes/icefox/assets/css/style.css?v=1.9.2">
+<link rel="stylesheet" href="https://avgel.cn/usr/themes/icefox/assets/css/viewer.min.css">
+<link rel="stylesheet" href="https://avgel.cn/usr/themes/icefox/uno.css?v=1.9.2">
+<script type="text/javascript" src="https://avgel.cn/usr/themes/icefox/assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="https://avgel.cn/usr/themes/icefox/assets/js/jqueryui.min.js"></script>
+<script type="text/javascript" src="https://avgel.cn/usr/themes/icefox/assets/js/jquery.ui.touch.punch.min.js"></script>
+<script type="text/javascript" src="https://avgel.cn/usr/themes/icefox/assets/js/axios.min.js"></script>
+<script type="text/javascript" src="https://avgel.cn/usr/themes/icefox/assets/js/scrollload.min.js"></script>
+<script type="text/javascript" src="https://avgel.cn/usr/themes/icefox/assets/js/lazyload.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />    
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="bg-[#f0f0f0] dark:bg-[#262626]">
+        <div style="min-height:100%">
+            <div class="bg-white dark:bg-[#323232] dark:text-[#cccccc] mx-auto main-container" :class="{'dark':darkMode}">
+                <header class="h-77 w-full bg-cover relative mb-12" style="background-image: url('https://cdnjs.sgcd.net/350.jpg');background-position: center;">
+                    <div class="fixed top-0 left-0 w-full h-14 z-9">
+                        <div class="main-container mx-auto flex flex-row justify-between h-full transition-all duration-300" id="top-fixed">
+                            <div class="flex items-center">
+                               <span class="h-full px-5 flex items-center"></span>
+                            </div>
+                            <div class="flex items-center">
+                                 <span class="h-full px-5 flex items-center"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute right-6 bottom-[-40] flex flex-col items-end w-90%">
+                        <div class="flex flex-row items-end">
+                            <span class="text-white mr-5 mb-6"><a href="/about.html" class="text-white cursor-pointer no-underline">浪子</a></span>
+                            <div class="w-15 h-15 rounded-lg overflow-hidden">
+                                <a href="/" class="cursor-pointer w-full h-full"> <img src="https://img.imsun.org/avatar.jpg" class="w-15 h-15 object-cover cursor-pointer preview-image" /></a>
+                            </div>
+                        </div>
+                        <div class="text-[12px] mt-3 text-gray truncate w-full text-end">傻子特别多</div>
+                    </div>
+                </header>
+ <style>
+.thumbnail-image {
+    width:100%;
+    height: 150px;  
+    align-items: center; 
+    justify-content: center;
+    overflow: hidden;
+}
+.resimg {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 10px; 
+    row-gap: 10px; 
+}
+.thumbnail-image img {
+    width:100%;
+    height:120px;
+    object-fit:cover;
+    border-radius:4px;
+    transition:transform .3s ease;
+    cursor:zoom-in;
+    }
+</style>
+                <div class="article-container">
+                    <div id="memos-container">Loading...</div>
+<script>
+window.onload = function() {
+    function formatHTML(memosData) {
+        let htmlString = '';
+        
+        memosData.memos.forEach(memo => {
+            const { content, resources, uid, createTime } = memo;
+            let resourceElement = ''; // 初始化资源相关HTML为空字符串
+
+            // 尝试从memo内容中匹配图片URL
+            const imageUrlMatch = content.match(/\((https?.+?\.(?:jpeg|jpg|gif|png))\)/i);
+            let imageUrl = "";
+            if (imageUrlMatch && imageUrlMatch.length > 1) {
+                imageUrl = imageUrlMatch[1];
+                resourceElement += `<a href="${imageUrl}" target="_blank"><img src="${imageUrl}" data-fancybox="img" class="thumbnail-image img"></a>`;
+            }
+
+            if (resources && resources.length > 0) {
+                resources.forEach(resource => {
+                    if (resource.externalLink && !imageUrl) { // 如果已经找到图片URL，则跳过
+                        // 检查链接是否为图片文件
+                        if (/\.(jpeg|jpg|gif|png|bmp|webp)$/i.test(resource.externalLink)) {
+                            // 是图片资源，创建图片标签
+                            resourceElement += `<a href="${resource.externalLink}" target="_blank"><img src="${resource.externalLink}" data-fancybox="img" class="thumbnail-image img"></a>`;
+                        } else {
+                            // 不是图片资源，创建超链接标签
+                            resourceElement += `<a href="${resource.externalLink}" target="_blank">点击下载</a>`;
+                        }
+                    }
+                });
+            }
+
+                // 使用 marked 转换 markdown 内容为 HTML
+                const htmlContent = marked.parse(content.replace(/#(.*?)\s/g, '') // 移除井号到空白字符的内容
+                                             .replace(/\!?\[(.*?)\]\((.*?)\)/g, '') // 移除Markdown风格的链接或图片
+                                          ); // 移除花括号内的内容
+            
+                // 创建 memo HTML 字符串，包括图片和内容
+                htmlString += `
+                    <article class="flex flex-row border-b border-b-2 dark:border-gray-800 border-gray-200 pt-5 pl-5 pr-5">
+                        <div class="mr-3">
+                            <div class="w-9 h-9">
+                               <img src="https://img.imsun.org/avatar.jpg" class="w-9 h-9 object-cover rounded-lg preview-image" />
+                            </div>
+                        </div>
+                        <div class="w-full border-t-0 border-l-0 border-r-0 border-b-1 dark:border-gray-800 border-gray-100 border-solid pb-1">
+                            <section class="flex flex-row justify-between items-center mb-1">
+                                <span class="text-color-link cursor-default text-[14px]">
+                                    <a href="https://memos.ee/m/${uid}" target="_blank" class="cursor-pointer text-color-link no-underline">浪子</a>
+                                </span>
+                            </section>
+                            <section class="mb-1 cursor-default text-[14px] article-content break-all line-clamp-4 content-22" data-cid="22">
+                                <p>${htmlContent}</p>
+                                <div class="resimg">${resourceElement}</div>
+                                <div class="text-gray text-xs">${new Date(createTime).toLocaleString()}</div>
+                            </section>
+                        </div>
+                    </article>`;
+            });
+
+            return htmlString;
+        }
+
+        // 通过 fetch 调用您的 API 并获取 memos 数据
+        function fetchAndDisplayMemos() {
+            fetch('https://bbapi.memos.ee')
+                .then(response => response.json())
+                .then(data => {
+                    const memosContainer = document.getElementById('memos-container');
+                    memosContainer.innerHTML = formatHTML(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching memos:', error);
+                });
+        }
+
+        // 在页面加载完成后获取并展示 memos
+        fetchAndDisplayMemos();
+    };
+    Fancybox.bind("[data-fancybox]", {
+  // Your custom options
+});
+</script>
+
+                <div id="friend-modal" class="fixed top-0 left-0 w-full h-full backdrop-blur-md bg-black/50 z-90 hidden">
+                    <div class="fixed top-1/2 left-1/2 friend-container bg-white transform -translate-x-1/2 -translate-y-1/2 overflow-y-scroll">
+                        <div class="w-full flex flex-row justify-end">
+                            <div class="p-2"><img width="24" height="24" src="https://avgel.cn/usr/themes/icefox/assets/svgs/btn-close.svg" class="cursor-pointer" @click="closeFriendModal()" />
+                            </div>
+                        </div>
+                        <div class="px-5 py-3">
+                            <h2>友情链接</h2>
+                        </div>
+                        <div class="px-5 py-5">
+                            <div class="mb-3 flex flex-row">
+                                <img src="https://img.imsun.org/avatar.jpg " class="w-10 h-10 rounded-md mr-3" />
+                                  <a href=" https://www.imsun.org/" class="text-sm font-semibold leading-6 text-gray-900 flex flex-row items-center cursor-pointer">老孙博客</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                </div>
+            </div>
+        </div>
+ 
+</body>
+</html>
