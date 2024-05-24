@@ -88,7 +88,7 @@ window.onload = function() {
                 resources.forEach(resource => {
                     if (resource.externalLink && !imageUrl) { // 如果已经找到图片URL，则跳过
                         // 检查链接是否为图片文件
-                        if (/\.(jpeg|jpg|gif|png|bmp|webp)$/i.test(resource.externalLink)) {
+                        if (/\.(jpeg|jpg|gif|png|bmp|webp)/i.test(resource.externalLink)) {
                             // 是图片资源，创建图片标签
                             resourceElement += `<a href="${resource.externalLink}" target="_blank"><img src="${resource.externalLink}" data-fancybox="img" class="thumbnail-image img"></a>`;
                         } else {
