@@ -50,14 +50,12 @@ input::placeholder {
 }
 
 .head {
-    background-image: url('http://0ru.cn/usr/uploads/2023/08/906729241.jpg');
     background-size: cover;
 }
 
 .hudong {
     width: 100%;
     height: 100%;
-    background-image: url('./svgs/post.fun.ico.light.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-color: #f7f7f7;
