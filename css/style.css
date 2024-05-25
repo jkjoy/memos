@@ -66,7 +66,7 @@ input::placeholder {
 .ico-back {
     width: 20px;
     height: 20px;
-    background-image: url('./svgs/post.top.back.svg');
+    background-image: url('//cdn.jsdelivr.net/gh/jkjoy/memos/svgs/post.top.back.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-color: transparent;
@@ -81,7 +81,7 @@ input::placeholder {
 .like {
     width: 18px;
     height: 18px;
-    background-image: url('./svgs/post.aside.like.light.svg');
+    background-image: url('//cdn.jsdelivr.net/gh/jkjoy/memos/svgs/post.aside.like.light.svg');
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
@@ -91,7 +91,7 @@ input::placeholder {
 .unlike {
     width: 18px;
     height: 18px;
-    background-image: url('./svgs/post.aside.like.light.svg');
+    background-image: url('//cdn.jsdelivr.net/gh/jkjoy/memos/svgs/post.aside.like.light.svg');
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
@@ -106,7 +106,7 @@ input::placeholder {
 .hudong-like {
     width: 18px;
     height: 18px;
-    background-image: url('./svgs/post.fun.btn.like.svg');
+    background-image: url('//cdn.jsdelivr.net/gh/jkjoy/memos/svgs/post.fun.btn.like.svg');
     background-repeat: no-repeat;
     background-position: center;
     color: transparent;
@@ -115,7 +115,7 @@ input::placeholder {
 .hudong-liked {
     width: 18px;
     height: 18px;
-    background-image: url('./svgs/post.fun.btn.liked.svg');
+    background-image: url('//cdn.jsdelivr.net/gh/jkjoy/memos/svgs/post.fun.btn.liked.svg');
     background-repeat: no-repeat;
     background-position: center;
     color: transparent;
@@ -124,7 +124,7 @@ input::placeholder {
 .hudong-comment {
     width: 18px;
     height: 18px;
-    background-image: url('./svgs/post.fun.btn.comment.svg');
+    background-image: url('//cdn.jsdelivr.net/gh/jkjoy/memos/svgs/post.fun.btn.comment.svg');
     background-repeat: no-repeat;
     background-position: center;
     color: transparent;
@@ -133,7 +133,7 @@ input::placeholder {
 .face {
     width: 18px;
     height: 18px;
-    background-image: url('./svgs/post.comment.face.svg');
+    background-image: url('//cdn.jsdelivr.net/gh/jkjoy/memos/svgs/post.comment.face.svg');
     background-repeat: no-repeat;
     background-position: center;
     color: transparent;
