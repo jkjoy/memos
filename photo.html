@@ -1,0 +1,179 @@
+ 
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>相册 - 基于memos	</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="keywords" content="关键字,相册"/>
+		<meta name="description" content="简介"/>
+ 
+    <meta name="apple-mobile-web-app-title" content="文字">
+ 
+ 
+ 
+		<link rel="stylesheet" type="text/css" href=" https://photo.sgcd.net/usr/themes/TimePlus/assets/css/main.css">
+ 
+		  
+	 
+ 
+	</head>
+	<body class="is-preload">
+  <header id="header">
+           
+						<h1><a href="/"><strong>浪子</strong></h1></a>
+            <span class="discription">浪子相册</span>
+						<nav>
+    <ul>
+              <li class='nav-item'>
+    <a class="icon solid fa-info-circle nav-item-name">分类</a>
+    <ul class="nav-item-child">
+        <li class="category-level-0 category-parent"><a style="cursor: pointer;" href="/">全部</a></li> 
+        <li class="category-level-0 category-parent"><a style="cursor: pointer;"> </a></li> 
+    </ul>
+</li>
+<li><a type="button" id="fullscreen" class="btn btn-default visible-lg visible-md" alt="切换全屏"><svg  class="icon-zmki zmki_dh zmki_wap" aria-hidden="true"><use xlink:href="#icon-zmki-ziyuan-copy"></use></svg></a></li>
+								<li><a href="#footer">关于</a></li>
+							</ul>
+						</nav>
+</header>
+
+		<!-- Wrapper -->
+		<div id="wrapper">
+				<!-- Header -->
+					<!-- Main -->
+			
+
+
+    <div id="gts-photos"></div>
+    <script>
+fetch('https://ppapi.ima.cm')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json(); 
+    })  
+    .then(data => {
+        if (!Array.isArray(data)) {
+            throw new Error('Data is not an array');
+        }
+
+        let html = data.flatMap(item => {
+            if (Array.isArray(item.media_attachments)) {
+                return item.media_attachments.map(attachment => {
+                    let imageUrl = attachment.url;
+                    if (!imageUrl) {
+                        throw new Error('Missing image URL');
+                    }
+                    
+                    return `<div id="main" >	
+                    <article class="thumb img-area">
+                        <a class="image my-photo"  href="${imageUrl}">
+                            <img class="zmki_px my-photo" src="${imageUrl}"/>
+                        </a> 
+                    </article></div> 
+                    `;
+                });
+            } else {
+                return [];
+            }
+        });
+
+        document.querySelector('#gts-photos').innerHTML = html.join('');
+    })
+    .catch(error => console.error('Error:', error));
+    </script>
+				 
+			
+	<body>
+ 				<!-- Footer -->
+					<footer id="footer" class="panel">
+						<div class="inner split">
+							<div class="inner split">
+							<div>
+								<section>
+									<h2>关于 </h2>
+									<p> </p>
+								</section>
+								<section style="margin-bottom: 1.8rem;">
+									<h2>联系我</h2>
+									<ul class="icons">	
+                    <li><a href="/" target="_blank" class="iconfont icon-shouye" rel="noopener nofollow"><span class="label">首页</span></a></li>
+						        <li><a href="https://weibo.com"  target="_blank" class="iconfont icon-weibo" rel="noopener nofollow"><span class="label">微博</span></a></li>
+                    <li><a href="https://github.com"  target="_blank" class="iconfont icon-github" rel="noopener nofollow"><span class="label">GitHub</span></a></li>
+										</ul>
+								</section> 
+								<span style="color: #b5b5b5; font-size: 0.8em;">
+									 
+								<p class="copyright">
+									&copy; ICP备案号:<a href="http://beian.miit.gov.cn/" target="_blank" rel="noopener nofollow">123</a>
+								</p>
+							</div>
+            </div>
+					</footer>
+<script type="text/javascript">
+function isInSight(el) {
+  const bound = el.getBoundingClientRect();
+  const clientHeight = window.innerHeight;
+  //如果只考虑向下滚动加载
+  //const clientWidth=window.innerWeight;
+  return bound.top <= clientHeight + 100;
+}
+
+let index = 0;
+function checkImgs() {
+  const imgs = document.querySelectorAll('.my-photo');
+  for (let i = index; i < imgs.length; i++) {
+    if (isInSight(imgs[i])) {
+      loadImg(imgs[i]);
+      index = i;
+    }
+  }
+  // Array.from(imgs).forEach(el => {
+  //   if (isInSight(el)) {
+  //     loadImg(el);
+  //   }
+  // })
+}
+
+function loadImg(el) {
+  if (!el.src) {
+    const source = el.dataset.src;
+    el.src = source;
+  }
+}
+
+function throttle(fn, mustRun = 10) {
+  const timer = null;
+  let previous = null;
+  return function() {
+    const now = new Date();
+    const context = this;
+    const args = arguments;
+    if (!previous) {
+      previous = now;
+    }
+    const remaining = now - previous;
+    if (mustRun && remaining >= mustRun) {
+      fn.apply(context, args);
+      previous = now;
+    }
+  }
+}
+ 		</script>
+		  <script>
+    window.onload=checkImgs;
+    window.onscroll = throttle(checkImgs);
+  </script>
+</div> 
+		<!-- Scripts -->
+      <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/1.7.2/jquery.min.js"></script>
+      <script src=" https://photo.sgcd.net/usr/themes/TimePlus/assets/js/jquery.poptrox.min.js "></script>
+			<script src=" https://photo.sgcd.net/usr/themes/TimePlus/assets/js/browser.min.js "></script>
+			<script src=" https://photo.sgcd.net/usr/themes/TimePlus/assets/js/breakpoints.min.js "></script>
+			<script src=" https://photo.sgcd.net/usr/themes/TimePlus/assets/js/util.js "></script>
+			<script src=" https://photo.sgcd.net/usr/themes/TimePlus/assets/js/main.js "></script>
+			
+	</body>
+</html>
