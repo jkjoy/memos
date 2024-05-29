@@ -258,13 +258,3 @@
           max-width: 750px;
       }
 }
-@media (min-width: 992px) {
-      .main-container {
-          max-width: 970px;
-      }
-}
-@media (min-width: 1200px) {
-      .main-container {
-          max-width: 1170px;
-      }
-}
