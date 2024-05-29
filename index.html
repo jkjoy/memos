@@ -5,7 +5,7 @@
 <title>Memos Display</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jkjoy/memos/css/style.css">
-<link rel="stylesheet" href="css/uno.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jkjoy/memos@latest/css/uno.css">
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />    
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -13,28 +13,31 @@
 </head>
 <body>
     <div class="bg-[#f0f0f0]">
-        <div>
+        <div> 
             <div class="bg-white mx-auto main-container">
-                <header class="h-77 w-full bg-cover relative mb-12" style="background-image: url('https://cdnjs.sgcd.net/350.jpg');background-position: center;">
+                <header class="top">
                     <div class="fixed top-0 left-0 w-full h-14 z-9">
                         <div class="main-container mx-auto flex flex-row justify-between h-full transition-all duration-300" id="top-fixed">
                             <div class="flex items-center">
-                               <span class="h-full px-5 flex items-center"> </span>
+                               <span class="h-full px-5 flex items-center">  </span>
                             </div>
                             <div class="flex items-center">
-                                 <span class="h-full px-5 flex items-center"> </span>
+                                 <span class="h-full px-5 flex items-center">  </span>
                             </div>
                         </div>
                     </div>
-                    <div class="absolute right-6 bottom-[-40] flex flex-col items-end w-90%">
-                        <div class="flex flex-row items-end">
-                            <span class="text-white mr-5 mb-6"><a href="/about.html" class="text-white cursor-pointer no-underline">浪子</a></span>
-                            <div class="w-15 h-15 rounded-lg overflow-hidden">
-                                <a href="/" class="cursor-pointer w-full h-full"> <img src="https://img.imsun.org/avatar.jpg" class="w-15 h-15 object-cover cursor-pointer preview-image" /></a>
+             
+                  
+                    
+                        <div class="top-1">
+                            <div class="flex flex-row items-end">
+                                    <a href="/"> <img src="https://img.imsun.org/avatar.jpg" /></a>
                             </div>
                         </div>
-                        <div class="text-[12px] mt-3 text-gray truncate w-full text-end">傻子特别多</div>
-                    </div>
+                        <div class="top-2"> 
+                            <div class="flex flex-row items-end">老孙</div>  </div>
+                       
+               
                 </header>
                 <div class="article-container">
                     <div id="memos-container"></div>
