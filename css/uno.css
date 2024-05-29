@@ -221,14 +221,12 @@
   height: 300px; /* 控制容器高度 */
   overflow: auto; /* 如果内容溢出容器，显示滚动条 */
 }
-
 .item {
   display: inline-block; /* 设置为行内块元素以便横向排列 */
   position: relative; /* 相对定位，使其能够使用top/bottom和left/right定位 */
   margin-left: -100%; /* 初始化外边距为负的容器宽度，以便从右侧开始排列 */
   margin-top: 10px; /* 如果需要的话，设置元素间的上边距 */
 }
-
 .container::before {
   /* 使用 ::before 伪元素占位，推动所有 .item 向上排列 */
   content: "";
@@ -254,11 +252,6 @@
 .main-container {
       max-width: 100%;
       padding: 0 0px;
-  }
-.thumbnail-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 5px;
   }
 @media (min-width: 768px) {
       .main-container {
