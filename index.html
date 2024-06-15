@@ -205,7 +205,10 @@ window.onload = function() {
                             <section class="mb-1 cursor-default break-all line-clamp">
                                 <p>${htmlContent}</p>
                                 <div class="resimg">${resourceElement}</div>
-                                <div class="text-gray text-xs"><a href="https://memos.ee/m/${uid}" target="_blank" class="cursor-pointer text-color-link no-underline">${new Date(createTime).toLocaleString()}</a></div>
+                                <div class="flex flex-row justify-between items-center text-gray text-xs">
+                                <a href="https://memos.ee/m/${uid}" target="_blank" class="cursor-pointer text-color-link no-underline">${new Date(createTime).toLocaleString()}</a>
+                                 <span class="cursor-pointer"> <a href="https://memos.ee/m/${uid}" target="_blank" class="cursor-pointer text-color-link no-underline">••</a></span>
+                                </div>
                             </section> 
                         </div>
                     </article>`;
