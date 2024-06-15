@@ -11,23 +11,6 @@
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <link rel="stylesheet" href="https://cdn.imsun.org/lxgw-wenkai-screen-webfont/lxgwwenkaigbscreen.css" />
 <style>
-#backToTop {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: none; /* Start hidden */
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-    z-index: 100; /* Ensure button is above other content */
-}
-#backToTop:hover {
-   background-color: #0056b3;
-}
 .thumbnail-image {
     width:100%;
     height: 150px;  
@@ -93,7 +76,7 @@
           max-width: 567px;
       }
 }
-    .top {
+.top {
         position: relative;
         height: 300px;
         background-color: #333;
@@ -102,38 +85,35 @@
         line-height: 200px; /* 垂直居中 */
         background-image: url('https://cdnjs.sgcd.net/350.jpg');
         background-position: center;
-    }
-    .top-1 {
+}
+.top-1 {
         position: absolute;
         bottom: -40px;
         right: 40px;
         padding: 10px;
         border-radius: 5px;
-      
-    }
-    .top img {
+}
+.top img {
         position: absolute;
         bottom: 20px;
         left: 20px;
         width: 50px;
         height: 50px;
        /*  border-radius: 50%; 变成圆形*/
-    }
-    .top-1, .top-2 {
+}
+.top-1, .top-2 {
         padding: 10px;
         border-radius: 5px;
         color: rgb(7, 7, 7);
         margin-right: 20px; /* 添加间距 */
-    }
-    .top-2 {
+}
+.top-2 {
         position: absolute;
         bottom: -100px;
         right: 40px;
         padding: 10px;
         border-radius: 5px;
-      
-    }
-
+}
 </style>
 </head>
 <body>
@@ -151,18 +131,14 @@
                             </div>
                         </div>
                     </div>
-             
-                  
-                    
                         <div class="top-1">
                             <div class="flex flex-row items-end">
                                     <a href="/"> <img src="https://img.imsun.org/avatar.jpg" /></a>
                             </div>
                         </div>
                         <div class="top-2"> 
-                            <div  class="cursor-pointer text-color-link no-underline">老孙</div>  </div>
-                       
-               
+                            <div  class="cursor-pointer text-color-link no-underline">老孙</div>  
+                        </div>
                 </header>
                 <div class="article-container">
                     <div id="memos-container"></div>
@@ -233,7 +209,6 @@ window.onload = function() {
             });
             return htmlString;
         }
-
         function fetchMemos() {
             return fetch('https://bbapi.memos.ee')
                 .then(response => response.json())
@@ -243,7 +218,6 @@ window.onload = function() {
                     return [];
                 });
         }
-
         function fetchAndDisplayMemos() {
             fetchMemos().then(data => {
                 const memosContainer = document.getElementById('memos-container');
@@ -256,24 +230,14 @@ window.onload = function() {
                 }
             });
         }
-
         // 在页面加载完成后获取并展示 memos
         fetchAndDisplayMemos();
-
         // 绑定“加载更多”按钮的点击事件
         document.getElementById('load-more').addEventListener('click', fetchAndDisplayMemos);
     };
-
     Fancybox.bind("[data-fancybox]", {
   // Your custom options
 });
 </script>   
-    <button class="backToTop">
-    <svg xmlns="http://www.w3.org/2000/svg" class="svgIcon" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
-        <path
-            d="M7.50015 0.425011C7.42998 0.354396 7.34632 0.298622 7.25415 0.261011C7.07101 0.187003 6.86629 0.187003 6.68315 0.261011C6.59128 0.298643 6.50795 0.354423 6.43815 0.425011L0.728147 6.13201C0.595667 6.27419 0.523544 6.46223 0.526972 6.65653C0.530401 6.85084 0.609113 7.03622 0.746526 7.17363C0.883939 7.31105 1.06932 7.38976 1.26362 7.39319C1.45793 7.39661 1.64597 7.32449 1.78815 7.19201L6.21615 2.76501V13.024C6.21615 13.2229 6.29517 13.4137 6.43582 13.5543C6.57647 13.695 6.76724 13.774 6.96615 13.774C7.16506 13.774 7.35583 13.695 7.49648 13.5543C7.63713 13.4137 7.71615 13.2229 7.71615 13.024V2.76501L12.1441 7.19201C12.2868 7.32867 12.4766 7.40497 12.6741 7.40497C12.8717 7.40497 13.0615 7.32867 13.2041 7.19201C13.3444 7.05126 13.4231 6.86068 13.4231 6.66201C13.4231 6.46334 13.3444 6.27277 13.2041 6.13201L7.50015 0.425011Z">
-        </path>
-    </svg>
-</button>
 </body>
 </html>
