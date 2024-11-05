@@ -1552,3 +1552,7 @@ img {
   object-fit: cover; /* 保持图片的纵横比，但会将图片裁剪以填充容器 */
   object-position: center; /* 保证中央部分 */
 } 
+        /* 隐藏元素的样式 */
+.hidden {
+          display: none;
+      }

@@ -45,63 +45,61 @@ window.onload = function() {
             console.error('Error fetching user data:', error);
         });
 
-    function formatHTML(memosData) {
-        let htmlString = '';
-        memosData.forEach(memo => {
-            const { content, resources, uid, createTime } = memo;
-            let resourceElement = '';
-            let imageCount = 0;
-
-            // 尝试从 memo 内容中匹配图片 URL
-            const imageUrlMatch = content.match(/\((https?.+?\.(?:jpeg|jpg|gif|png))\)/i);
-            let imageUrl = "";
-            if (imageUrlMatch && imageUrlMatch.length > 1) {
-                imageUrl = imageUrlMatch[1];
-                resourceElement += `<figure class="gallery-thumbnail aspectratio" style="--aspectratio: 3024 / 4032;"><img src="${imageUrl}" data-fancybox="img" class="thumbnail-image g-alias-imgblock"> </figure>`;
-                imageCount++;
-            }
- 
-            if (resources && resources.length > 0) {
-                resources.forEach(resource => {
-                    
-                    if (resource.externalLink && !imageUrl) {
-                        // 检查链接是否为图片文件
-                        if (/\.(jpeg|jpg|gif|png|bmp|webp)/i.test(resource.externalLink)) {
-                            resourceElement += `
-                            <figure class="gallery-thumbnail aspectratio" style="--aspectratio: 4032 / 3024;">
-                                <img class="thumbnail-image g-alias-imgblock" src="${resource.externalLink}" />
-                            </figure>
-                                  `;
-                            imageCount++;
+        function formatHTML(memosData) {
+            let htmlString = '';
+            memosData.forEach(memo => {
+                const { content, resources, uid, createTime } = memo;
+                let resourceElement = '';
+                let imageCount = 0;
+        
+                // 尝试从 memo 内容中匹配图片 URL
+                const regex = /!\[.*?\]\((https?:\/\/.+?)\)/gi;
+                let match;
+                while ((match = regex.exec(content)) !== null) {
+                    const imageUrl = match[1];
+                    resourceElement += `<figure class="gallery-thumbnail aspectratio" style="--aspectratio: 3024 / 4032;"><img src="${imageUrl}" data-fancybox="img" class="thumbnail-image g-alias-imgblock"> </figure>`;
+                    imageCount++;
+                }
+        
+                if (resources && resources.length > 0) {
+                    resources.forEach(resource => {
+                        if (resource.externalLink) {
+                            // 检查链接是否为图片文件
+                            if (/\.(jpeg|jpg|gif|png|bmp|webp)/i.test(resource.externalLink)) {
+                                resourceElement += `
+                                <figure class="gallery-thumbnail aspectratio" style="--aspectratio: 4032 / 3024;">
+                                    <img class="thumbnail-image g-alias-imgblock" src="${resource.externalLink}" />
+                                </figure>
+                                `;
+                                imageCount++;
+                            } else {
+                                resourceElement += `<a href="${resource.externalLink}" target="_blank">点击下载</a>`;
+                            }
                         } else {
-                            resourceElement += `<a href="${resource.externalLink}" target="_blank">点击下载</a>`;
+                            const resourceUrl = `${memohost}/file/${resource.name}/${resource.filename}`;
+                            // 检查链接是否为图片文件
+                            if (/\.(jpeg|jpg|gif|png|bmp|webp)/i.test(resourceUrl)) {
+                                resourceElement += `<a href="${resourceUrl}" target="_blank"><img src="${resourceUrl}" class="thumbnail-image g-alias-imgblock"></a>`;
+                                imageCount++;
+                            } else {
+                                resourceElement += `<a href="${resourceUrl}" target="_blank">点击下载</a>`;
+                            }
                         }
-                    } else if (!resource.externalLink) {
-                       
-                        const  resourceUrl = `${memohost}/file/${resource.name}/${resource.filename}`;
-                        // 检查链接是否为图片文件
-                        if (/\.(jpeg|jpg|gif|png|bmp|webp)/i.test(resourceUrl)) {
-                            resourceElement += `<a href="${resourceUrl}" target="_blank"><img src="${resourceUrl}" class="thumbnail-image g-alias-imgblock"></a>`;
-                            imageCount++;
-                        } else {
-                            resourceElement += `<a href="${resourceUrl}" target="_blank">点击下载</a>`;
-                        }
-                    }
-                });
-            }
-
-            // 根据图片数量设置 CSS 类
-            let gridClass = '';
-            if (imageCount === 1) {
-                gridClass = 'grid-1';
-            } else if (imageCount === 2 || imageCount === 4) {
-                gridClass = 'grid-2';
-            } else if (imageCount === 3 || imageCount > 4) {
-                gridClass = 'grid-3';
-            }
-
+                    });
+                }
+        
+                // 根据图片数量设置 CSS 类
+                let gridClass = '';
+                if (imageCount === 1) {
+                    gridClass = 'grid-1';
+                } else if (imageCount === 2 || imageCount === 4) {
+                    gridClass = 'grid-2';
+                } else if (imageCount === 3 || imageCount > 4) {
+                    gridClass = 'grid-3';
+                }
+        
             // 使用 marked 转换 markdown 内容为 HTML，并处理其中的超链接
-            const htmlContent = marked.parse(content.replace(/#(.*?)\s/g, '')
+            const htmlContent = marked.parse(content.replace(/```\s*```/g, '').replace(/```\s*\n\s*```/g, '')
                .replace(/\!?\[(.*?)\]\((.*?)\)/g, ''));
             const processedContent = processLinks(htmlContent);
 
@@ -130,8 +128,8 @@ window.onload = function() {
                         </a>
                         </div>
                     </footer>
-                    <aside class="post-aside show">
-                            <div class="fun-area post-comment g-clear-both index show">
+                    <aside class="post-aside">
+                            <div class="fun-area post-comment g-clear-both">
                                 <div data-url="${getMemoUrl(uid)}" class="post">
                                 <ul class="comment-list"></ul>
                                 </div> 
@@ -193,55 +191,81 @@ window.onload = function() {
     function loadTwikooComments() {
         const postElements = document.querySelectorAll('.post');
         const postUrls = [];
-      
+    
         postElements.forEach(element => {
             const url = element.getAttribute('data-url');
             if (url) {
                 postUrls.push(url);
             }
         });
-      
+    
         postUrls.forEach(postUrl => {
-            twikoo.getRecentComments({
+            const commentListElement = document.querySelector(`[data-url="${postUrl}"] .comment-list`);
+            if (commentListElement) {
+                commentListElement.innerHTML = ''; // 清除之前的评论
+            }
+    
+            // 获取评论数量
+            twikoo.getCommentsCount({
                 envId: memo.twikoo,
                 urls: [postUrl],
-                pageSize: 5,
                 includeReply: false
-            }).then(function (res) {
-                postElements.forEach(postElement => {
-                    if (postElement.getAttribute('data-url') === postUrl) {
-                        const commentListElement = postElement.querySelector('.comment-list');
+            }).then(function (countRes) {
+                const commentCount = countRes[0].count;
+                const postAside = document.querySelector(`[data-url="${postUrl}"]`).closest('.post-aside');
+    
+                if (commentCount === 0) {
+                    // 如果没有评论，隐藏评论区域
+                    if (postAside) {
+                        postAside.style.display = 'none';
+                    }
+                } else {
+                    // 如果有评论，显示评论区域
+                    if (postAside) {
+                        postAside.style.display = 'block';
+                    }
+    
+                    // 获取评论内容
+                    twikoo.getRecentComments({
+                        envId: memo.twikoo,
+                        urls: [postUrl],
+                        pageSize: 5,
+                        includeReply: false
+                    }).then(function (res) {
                         res.forEach(item => {
                             const li = document.createElement('li');
-      
+    
                             const a = document.createElement('a');
                             a.href = item.url;
                             a.title = item.comment;
-      
+    
                             const parser = new DOMParser();
                             const commentFragment = parser.parseFromString(item.comment, 'text/html').body;
                             a.textContent = item.nick + ': ' + commentFragment.textContent;
-      
+    
                             const spanContent = document.createElement('span');
                             spanContent.classList.add('comment-content');
                             spanContent.appendChild(a);
-      
+    
                             const spanTime = document.createElement('span');
                             spanTime.classList.add('comment-time');
                             spanTime.textContent = item.relativeTime;
-      
+    
                             li.appendChild(spanContent);
                             li.appendChild(spanTime);
-      
+    
                             commentListElement.appendChild(li);
                         });
-                    }
-                });
+                    }).catch(function (err) {
+                        console.error(err);
+                    });
+                }
             }).catch(function (err) {
                 console.error(err);
             });
         });
     }
+
 
     window.ViewImage && ViewImage.init('.post-content img');
 };
@@ -263,3 +287,4 @@ function processLinks(html) {
     });
     return doc.body.innerHTML;
 }
+
