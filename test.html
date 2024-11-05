@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recent Comments</title>
+  <style>
+    .comment-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    .comment-list li {
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+    }
+    .comment-list .comment-content {
+      font-size: 14px;
+    }
+    .comment-list .comment-time {
+      font-size: 12px;
+      color: #888;
+    }
+  </style>
+    <script src="https://registry.npmmirror.com/twikoo/1.6.31/files/dist/twikoo.all.min.js"></script>  
+  
+</head>
+<body>
+  <h1>Recent Comments</h1>
+  <div class="post" data-url="https://memos.ee/m/nfvudWQQxYHrVkzZRACB6Y">
+    <h2>Post 1</h2>
+    <ul class="comment-list" id="comment-list-post1"></ul>
+  </div>
+  <div class="post" data-url="https://example.com/post2">
+    <h2>Post 2</h2>
+    <ul class="comment-list" id="comment-list-post2"></ul>
+  </div>
+  <div class="post" data-url="https://example.com/post3">
+    <h2>Post 3</h2>
+    <ul class="comment-list" id="comment-list-post3"></ul>
+  </div>
+ 
+  <script>
+    // JavaScript 代码将放在这里
+    (function () {
+  const postElements = document.querySelectorAll('.post');
+  const postUrls = [];
+
+  postElements.forEach(element => {
+    const url = element.getAttribute('data-url');
+    if (url) {
+      postUrls.push(url);
+    }
+  });
+
+  postUrls.forEach(postUrl => {
+    twikoo.getRecentComments({
+      envId: 'https://t.memos.ee',
+      urls: [postUrl],
+      pageSize: 5,
+      includeReply: false
+    }).then(function (res) {
+      postElements.forEach(postElement => {
+        if (postElement.getAttribute('data-url') === postUrl) {
+          const commentListElement = postElement.querySelector('.comment-list');
+          res.forEach(item => {
+            const li = document.createElement('li');
+
+            const a = document.createElement('a');
+            a.href = item.url + '#' + item.id;
+            a.title = item.comment;
+
+            const parser = new DOMParser();
+            const commentFragment = parser.parseFromString(item.comment, 'text/html').body;
+            a.textContent = item.nick + ': ' + commentFragment.textContent;
+
+            const spanContent = document.createElement('span');
+            spanContent.classList.add('comment-content');
+            spanContent.appendChild(a);
+
+            const spanTime = document.createElement('span');
+            spanTime.classList.add('comment-time');
+            spanTime.textContent = item.relativeTime;
+
+            li.appendChild(spanContent);
+            li.appendChild(spanTime);
+
+            commentListElement.appendChild(li);
+          });
+        }
+      });
+    }).catch(function (err) {
+      console.error(err);
+    });
+  });
+})();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+ 

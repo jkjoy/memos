@@ -1482,3 +1482,73 @@ legend{color:#000;}
   div.post-content-externallink > *.elt {
     cursor: pointer;
   }
+  .nav-links {
+    display: grid; /* 使用 Grid 布局 */
+    place-items: center; /* 水平和垂直居中 */
+    width: 100%; /* 设置宽度 */
+    height: 50px; /* 设置高度，根据需要调整 */
+}
+.copyright {
+        display: flex; /* 使用 Flexbox 布局 */
+        justify-content: center; /* 水平居中 */
+        align-items: center; /* 垂直居中 */
+        width: 100%; /* 设置宽度 */
+        height: 100px; /* 设置高度，根据需要调整 */
+    }
+body {
+   font-family: "LXGW WenKai Screen", sans-serif;
+}  
+.comment-list {
+margin-top: 20px;
+background: #f5f5f5;
+border-radius: 5px 5px 0 0;
+color: #666;
+position: relative;
+word-break: break-word;
+word-wrap: break-word;
+padding-left:0px;
+}
+
+.comment-list li {
+padding: 6px 10px;
+border-bottom: 0px solid #eee;
+list-style-type: none;
+}
+
+.comment-time {
+float: right; 
+color: #999;
+text-align: right;
+display: block;
+}
+
+
+.comment-list::after {
+content:"";
+width:0;
+height:0;
+border:10px solid transparent;
+border-bottom-color:#f5f5f5;
+position:absolute;
+top:-1px;
+left:15px;
+margin-top:-19px;
+}  
+
+div pre code {
+  /* 迫使文字断行 */
+  white-space: pre-wrap; /* CSS3 */
+  word-wrap: break-word; /* 老版本的浏览器 */
+  overflow-wrap: break-word;  
+  /* 指定如何断行 */
+  word-break: break-all;  
+  word-break: break-word;  
+}
+div p a {
+  word-break: break-all;  
+  word-break: break-word;  
+}
+img {
+  object-fit: cover; /* 保持图片的纵横比，但会将图片裁剪以填充容器 */
+  object-position: center; /* 保证中央部分 */
+} 

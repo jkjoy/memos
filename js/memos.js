@@ -3,6 +3,7 @@ const memo = {
     limit: '100',
     creatorId: '1',
     domId: '#posts',
+    twikoo: 'https://t.memos.ee'
 };
 
 if (typeof memos !== "undefined") {
@@ -13,6 +14,8 @@ if (typeof memos !== "undefined") {
     }
 }
 var memohost = memo.host.replace(/\/$/, '')
+var load = '<div class="nav-links"><span id="load-more" class="loadmore">加载更多</span></div>'
+
 window.onload = function() {
     let offset = 0;
     const limit = 10;
@@ -64,9 +67,10 @@ window.onload = function() {
                     if (resource.externalLink && !imageUrl) {
                         // 检查链接是否为图片文件
                         if (/\.(jpeg|jpg|gif|png|bmp|webp)/i.test(resource.externalLink)) {
-                            resourceElement += `<figure class="gallery-thumbnail aspectratio" style="--aspectratio: 4032 / 3024;">
-                                        <img class="thumbnail-image g-alias-imgblock" src="${resource.externalLink}" data-fancybox="img" />
-                                    </figure>
+                            resourceElement += `
+                            <figure class="gallery-thumbnail aspectratio" style="--aspectratio: 4032 / 3024;">
+                                <img class="thumbnail-image g-alias-imgblock" src="${resource.externalLink}" />
+                            </figure>
                                   `;
                             imageCount++;
                         } else {
@@ -77,7 +81,7 @@ window.onload = function() {
                         const  resourceUrl = `${memohost}/file/${resource.name}/${resource.filename}`;
                         // 检查链接是否为图片文件
                         if (/\.(jpeg|jpg|gif|png|bmp|webp)/i.test(resourceUrl)) {
-                            resourceElement += `<a href="${resourceUrl}" target="_blank"><img src="${resourceUrl}" data-fancybox="img" class="thumbnail-image g-alias-imgblock"></a>`;
+                            resourceElement += `<a href="${resourceUrl}" target="_blank"><img src="${resourceUrl}" class="thumbnail-image g-alias-imgblock"></a>`;
                             imageCount++;
                         } else {
                             resourceElement += `<a href="${resourceUrl}" target="_blank">点击下载</a>`;
@@ -126,6 +130,13 @@ window.onload = function() {
                         </a>
                         </div>
                     </footer>
+                    <aside class="post-aside show">
+                            <div class="fun-area post-comment g-clear-both index show">
+                                <div data-url="${getMemoUrl(uid)}" class="post">
+                                <ul class="comment-list"></ul>
+                                </div> 
+                            </div>
+                        </aside>
                 </div>
             </article>`;
         });
@@ -149,22 +160,90 @@ window.onload = function() {
         fetchMemos().then(data => {
             const memosContainer = memoDom;
             const memosToShow = data.slice(offset, offset + limit);
-            memosContainer.innerHTML += formatHTML(memosToShow);
+            // 移除旧的“加载更多”按钮
+            const oldLoadMoreButton = document.getElementById('load-more');
+            if (oldLoadMoreButton) {
+                oldLoadMoreButton.remove();
+            }
+
+            // 插入新的内容
+            memosContainer.insertAdjacentHTML('beforeend', formatHTML(memosToShow));
             offset += limit;
+
+            // 插入新的“加载更多”按钮
+            memosContainer.insertAdjacentHTML('beforeend', load);
+
             // 如果没有更多的 memos，隐藏“加载更多”按钮
             if (offset >= data.length) {
                 document.getElementById('load-more').style.display = 'none';
             }
+
+            // 确保“加载更多”按钮存在后再添加事件监听器
+            const loadMoreButton = document.getElementById('load-more');
+            if (loadMoreButton) {
+                loadMoreButton.removeEventListener('click', fetchAndDisplayMemos); // 移除旧的事件监听器
+                loadMoreButton.addEventListener('click', fetchAndDisplayMemos); // 添加新的事件监听器
+            }
+
+            // 加载 Twikoo 评论
+            loadTwikooComments();
         });
     }
 
-    // 绑定“加载更多”按钮的点击事件
-    document.getElementById('load-more').addEventListener('click', fetchAndDisplayMemos);
+    function loadTwikooComments() {
+        const postElements = document.querySelectorAll('.post');
+        const postUrls = [];
+      
+        postElements.forEach(element => {
+            const url = element.getAttribute('data-url');
+            if (url) {
+                postUrls.push(url);
+            }
+        });
+      
+        postUrls.forEach(postUrl => {
+            twikoo.getRecentComments({
+                envId: memo.twikoo,
+                urls: [postUrl],
+                pageSize: 5,
+                includeReply: false
+            }).then(function (res) {
+                postElements.forEach(postElement => {
+                    if (postElement.getAttribute('data-url') === postUrl) {
+                        const commentListElement = postElement.querySelector('.comment-list');
+                        res.forEach(item => {
+                            const li = document.createElement('li');
+      
+                            const a = document.createElement('a');
+                            a.href = item.url;
+                            a.title = item.comment;
+      
+                            const parser = new DOMParser();
+                            const commentFragment = parser.parseFromString(item.comment, 'text/html').body;
+                            a.textContent = item.nick + ': ' + commentFragment.textContent;
+      
+                            const spanContent = document.createElement('span');
+                            spanContent.classList.add('comment-content');
+                            spanContent.appendChild(a);
+      
+                            const spanTime = document.createElement('span');
+                            spanTime.classList.add('comment-time');
+                            spanTime.textContent = item.relativeTime;
+      
+                            li.appendChild(spanContent);
+                            li.appendChild(spanTime);
+      
+                            commentListElement.appendChild(li);
+                        });
+                    }
+                });
+            }).catch(function (err) {
+                console.error(err);
+            });
+        });
+    }
 
-    // Fancybox 初始化
-    Fancybox.bind("[data-fancybox]", {
-        // Your custom options
-    });
+    window.ViewImage && ViewImage.init('.post-content img');
 };
 
 function getMemoUrl(uid) {
