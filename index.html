@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" class="mobile chrome">
+    <head>
+        <title>朋友圈</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="./css/style.css"/>
+    </head>
+    <body>
+        <div id="container" class="g-width g-block-center g-clear-both">
+            <header id="banner">
+                <div id="banner-background" class="existbg" style="--banner_background_image_position_dark: 90%;"></div>
+                <div id="banner-info" class="g-clear-both">
+                    <div class="name g-left">
+                        <strong class="font-options g-right g-user-select zh" >浪子的朋友圈</strong>
+                    </div>
+                    <div class="avatar g-right">
+                        <img class="g-alias-imgblock" src="" loading="lazy" draggable="false" alt=""/>
+                    </div>
+                </div>
+                <div id="banner-subinfo" class="g-txt-ellipsis g-user-select"></div>
+            </header>
+            <main>
+                    <div id="posts"></div>
+                    <script>
+                        const memos = {
+                            host: 'https://memos.ee',
+                            limit: '1000',
+                            creatorId: '1',
+                            domId: '#posts',
+                        };
+                    </script>    
+            <script src="js/memos.js"></script>   
+            </main>
+        </div>
+    </body>
+</html>
