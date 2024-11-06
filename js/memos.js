@@ -188,7 +188,7 @@ window.onload = function() {
         });
     }
 
-        function loadTwikooComments() {
+    function loadTwikooComments() {
             const postElements = document.querySelectorAll('.post');
             const postUrls = [];
         
@@ -265,6 +265,7 @@ window.onload = function() {
                 });
             });
         }
+        
     window.ViewImage && ViewImage.init('.post-content img');
 };
 
