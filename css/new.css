@@ -1556,3 +1556,6 @@ img {
 .hidden {
           display: none;
       }
+.busuanzi {
+  text-align: center;        /* 使容器占满整个视口高度 */
+      }      

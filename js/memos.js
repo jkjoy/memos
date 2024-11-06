@@ -128,8 +128,8 @@ window.onload = function() {
                         </a>
                         </div>
                     </footer>
-                    <aside class="post-aside">
-                            <div class="fun-area post-comment g-clear-both">
+                    <aside class="post-aside show">
+                            <div class="fun-area post-comment g-clear-both index show">
                                 <div data-url="${getMemoUrl(uid)}" class="post">
                                 <ul class="comment-list"></ul>
                                 </div> 
@@ -188,85 +188,83 @@ window.onload = function() {
         });
     }
 
-    function loadTwikooComments() {
-        const postElements = document.querySelectorAll('.post');
-        const postUrls = [];
-    
-        postElements.forEach(element => {
-            const url = element.getAttribute('data-url');
-            if (url) {
-                postUrls.push(url);
-            }
-        });
-    
-        postUrls.forEach(postUrl => {
-            const commentListElement = document.querySelector(`[data-url="${postUrl}"] .comment-list`);
-            if (commentListElement) {
-                commentListElement.innerHTML = ''; // 清除之前的评论
-            }
-    
-            // 获取评论数量
-            twikoo.getCommentsCount({
-                envId: memo.twikoo,
-                urls: [postUrl],
-                includeReply: false
-            }).then(function (countRes) {
-                const commentCount = countRes[0].count;
-                const postAside = document.querySelector(`[data-url="${postUrl}"]`).closest('.post-aside');
-    
-                if (commentCount === 0) {
-                    // 如果没有评论，隐藏评论区域
-                    if (postAside) {
-                        postAside.style.display = 'none';
-                    }
-                } else {
-                    // 如果有评论，显示评论区域
-                    if (postAside) {
-                        postAside.style.display = 'block';
-                    }
-    
-                    // 获取评论内容
-                    twikoo.getRecentComments({
-                        envId: memo.twikoo,
-                        urls: [postUrl],
-                        pageSize: 5,
-                        includeReply: false
-                    }).then(function (res) {
-                        res.forEach(item => {
-                            const li = document.createElement('li');
-    
-                            const a = document.createElement('a');
-                            a.href = item.url;
-                            a.title = item.comment;
-    
-                            const parser = new DOMParser();
-                            const commentFragment = parser.parseFromString(item.comment, 'text/html').body;
-                            a.textContent = item.nick + ': ' + commentFragment.textContent;
-    
-                            const spanContent = document.createElement('span');
-                            spanContent.classList.add('comment-content');
-                            spanContent.appendChild(a);
-    
-                            const spanTime = document.createElement('span');
-                            spanTime.classList.add('comment-time');
-                            spanTime.textContent = item.relativeTime;
-    
-                            li.appendChild(spanContent);
-                            li.appendChild(spanTime);
-    
-                            commentListElement.appendChild(li);
-                        });
-                    }).catch(function (err) {
-                        console.error(err);
-                    });
+        function loadTwikooComments() {
+            const postElements = document.querySelectorAll('.post');
+            const postUrls = [];
+        
+            postElements.forEach(element => {
+                const url = element.getAttribute('data-url');
+                if (url) {
+                    postUrls.push(url);
                 }
-            }).catch(function (err) {
-                console.error(err);
             });
-        });
-    }
-
-
+        
+            postUrls.forEach(postUrl => {
+                const commentListElement = document.querySelector(`[data-url="${postUrl}"] .comment-list`);
+                if (commentListElement) {
+                    commentListElement.innerHTML = ''; // 清除之前的评论
+                }
+        
+                // 获取评论数量
+                twikoo.getCommentsCount({
+                    envId: memo.twikoo,
+                    urls: [postUrl],
+                    includeReply: false
+                }).then(function (countRes) {
+                    const commentCount = countRes[0].count;
+                    const postAside = document.querySelector(`[data-url="${postUrl}"]`).closest('.post-aside');
+        
+                    if (commentCount === 0) {
+                        // 如果没有评论，隐藏评论区域
+                        if (postAside) {
+                            postAside.style.display = 'none';
+                        }
+                    } else {
+                        // 如果有评论，显示评论区域
+                        if (postAside) {
+                            postAside.style.display = 'block';
+                        }
+        
+                        // 获取评论内容
+                        twikoo.getRecentComments({
+                            envId: memo.twikoo,
+                            urls: [postUrl],
+                            pageSize: 5,
+                            includeReply: false
+                        }).then(function (res) {
+                            res.forEach(item => {
+                                const li = document.createElement('li');
+        
+                                const a = document.createElement('a');
+                                a.href = item.url;
+                                a.title = item.comment;
+        
+                                const parser = new DOMParser();
+                                const commentFragment = parser.parseFromString(item.comment, 'text/html').body;
+                                a.textContent = item.nick + ': ' + commentFragment.textContent;
+        
+                                const spanContent = document.createElement('span');
+                                spanContent.classList.add('comment-content');
+                                spanContent.appendChild(a);
+        
+                                const spanTime = document.createElement('span');
+                                spanTime.classList.add('comment-time');
+                                spanTime.textContent = item.relativeTime;
+        
+                                li.appendChild(spanContent);
+                                li.appendChild(spanTime);
+        
+                                commentListElement.appendChild(li);
+                            });
+                        }).catch(function (err) {
+                            console.error(err);
+                        });
+                    }
+                }).catch(function (err) {
+                    console.error(err);
+                });
+            });
+        }
     window.ViewImage && ViewImage.init('.post-content img');
 };
 
