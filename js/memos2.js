@@ -30,14 +30,6 @@ window.onload = function() {
             userurl = `${memo.host}/u/${userData.username}`;
             description = userData.description;
 
-            // 更新 banner 信息
-            const bannerSubinfo = document.getElementById('banner-subinfo');
-            bannerSubinfo.textContent = description;
-            const bannerBackground = document.getElementById('banner-background');
-            bannerBackground.style.backgroundImage = 'url("https://pic.0tz.top/api")';
-            const avatarImg = document.querySelector('.g-alias-imgblock');
-            avatarImg.src = avatarurl;
-
             // 初始化并加载 memos
             fetchAndDisplayMemos();
         })
@@ -105,42 +97,34 @@ window.onload = function() {
 
             // 创建 memo HTML 字符串，包括图片和内容
             htmlString += `
-             <article id="post-${uid}" class="g-clear-both">
-                <div class="post-avatar g-left">
-                    <a href="${userurl}" target="_blank">   
-                        <img class="g-alias-imgblock" src="${avatarurl}" loading="lazy" style="width: 40px; height: 40px;" alt=""/>
-                    </a>
-                </div>
-                <div class="post-main g-right">
-                    <header class="post-header g-clear-both">
-                        <div class="post-title g-left g-txt-ellipsis g-user-select">${memoname}</div>
-                    </header>
-                    <section class="post-content g-inline-justify g-user-select">
-                        <p> ${processedContent}</p>  
-                        <div class="post-content-gallery ${gridClass}">
+    <article class="card-wrapper card">
+      <a href="${getMemoUrl(uid)}" class="post-preview row g-0 flex-md-row-reverse">
+        <div class="col-md-12">
+          <div class="card-body d-flex flex-column">
+            <div class="card-text content mt-0 mb-3">
+ <p> ${processedContent}</p>        <div class="post-content-gallery ${gridClass}">
                               ${resourceElement}     
                         </div>
-                    </section>
-                    <footer class="post-footer g-clear-both">
-                        <div class="post-info g-left g-txt-ellipsis">
-                        <a href="${getMemoUrl(uid)}" target="_blank">   
-                            <span clsss="post-date">${new Date(createTime).toLocaleString()}</span>
-                        </a>
-                        </div>
-                    </footer>
-                    <aside class="post-aside show">
-                            <div class="fun-area post-comment g-clear-both index show">
-                                <div data-url="${getMemoUrl(uid)}" class="post">
-                                <ul class="comment-list"></ul>
-                                </div> 
-                            </div>
-                        </aside>
-                </div>
+            </div>
+            <div class="post-meta flex-grow-1 d-flex align-items-end">
+              <div class="me-auto">
+                <!-- posted date -->
+                <i class="far fa-calendar fa-fw me-1"></i>
+<time
+  data-ts="${new Date(createTime).toLocaleString()}"
+  data-df="YYYY/MM/DD"
+>
+${new Date(createTime).toLocaleString()}
+</time>   
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
             </article>`;
         });
         return htmlString;
     }
-
     function fetchMemos() {
         return fetch(`${memo.host}/api/v1/memos?pageSize=${memo.limit}&filter=visibilities%20==%20[%27PUBLIC%27]%20%26%26%20creator%20==%20%27users/${memo.creatorId}%27`)
            .then(response => response.json())
@@ -150,10 +134,8 @@ window.onload = function() {
                 return [];
             });
     }
-
     var memoDom = document.querySelector(memo.domId);
     if (memoDom) {}
-
     function fetchAndDisplayMemos() {
         fetchMemos().then(data => {
             const memosContainer = memoDom;
@@ -163,109 +145,23 @@ window.onload = function() {
             if (oldLoadMoreButton) {
                 oldLoadMoreButton.remove();
             }
-
             // 插入新的内容
             memosContainer.insertAdjacentHTML('beforeend', formatHTML(memosToShow));
             offset += limit;
-
             // 插入新的“加载更多”按钮
             memosContainer.insertAdjacentHTML('beforeend', load);
-
             // 如果没有更多的 memos，隐藏“加载更多”按钮
             if (offset >= data.length) {
                 document.getElementById('load-more').style.display = 'none';
             }
-
             // 确保“加载更多”按钮存在后再添加事件监听器
             const loadMoreButton = document.getElementById('load-more');
             if (loadMoreButton) {
                 loadMoreButton.removeEventListener('click', fetchAndDisplayMemos); // 移除旧的事件监听器
                 loadMoreButton.addEventListener('click', fetchAndDisplayMemos); // 添加新的事件监听器
             }
-
-            // 加载 Twikoo 评论
-            loadTwikooComments();
         });
-    }
-
-    function loadTwikooComments() {
-            const postElements = document.querySelectorAll('.post');
-            const postUrls = [];
-        
-            postElements.forEach(element => {
-                const url = element.getAttribute('data-url');
-                if (url) {
-                    postUrls.push(url);
-                }
-            });
-        
-            postUrls.forEach(postUrl => {
-                const commentListElement = document.querySelector(`[data-url="${postUrl}"] .comment-list`);
-                if (commentListElement) {
-                    commentListElement.innerHTML = ''; // 清除之前的评论
-                }
-        
-                // 获取评论数量
-                twikoo.getCommentsCount({
-                    envId: memo.twikoo,
-                    urls: [postUrl],
-                    includeReply: false
-                }).then(function (countRes) {
-                    const commentCount = countRes[0].count;
-                    const postAside = document.querySelector(`[data-url="${postUrl}"]`).closest('.post-aside');
-        
-                    if (commentCount === 0) {
-                        // 如果没有评论，隐藏评论区域
-                        if (postAside) {
-                            postAside.style.display = 'none';
-                        }
-                    } else {
-                        // 如果有评论，显示评论区域
-                        if (postAside) {
-                            postAside.style.display = 'block';
-                        }
-        
-                        // 获取评论内容
-                        twikoo.getRecentComments({
-                            envId: memo.twikoo,
-                            urls: [postUrl],
-                            pageSize: 5,
-                            includeReply: false
-                        }).then(function (res) {
-                            res.forEach(item => {
-                                const li = document.createElement('li');
-        
-                                const a = document.createElement('a');
-                                a.href = item.url;
-                                a.title = item.comment;
-        
-                                const parser = new DOMParser();
-                                const commentFragment = parser.parseFromString(item.comment, 'text/html').body;
-                                a.textContent = item.nick + ': ' + commentFragment.textContent;
-        
-                                const spanContent = document.createElement('span');
-                                spanContent.classList.add('comment-content');
-                                spanContent.appendChild(a);
-        
-                                const spanTime = document.createElement('span');
-                                spanTime.classList.add('comment-time');
-                                spanTime.textContent = item.relativeTime;
-        
-                                li.appendChild(spanContent);
-                                li.appendChild(spanTime);
-        
-                                commentListElement.appendChild(li);
-                            });
-                        }).catch(function (err) {
-                            console.error(err);
-                        });
-                    }
-                }).catch(function (err) {
-                    console.error(err);
-                });
-            });
-        }
-        
+    }  
     window.ViewImage && ViewImage.init('.post-content img');
 };
 
@@ -276,7 +172,6 @@ function getMemoUrl(uid) {
         return '#';
     }
 }
-
 function processLinks(html) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
@@ -286,4 +181,3 @@ function processLinks(html) {
     });
     return doc.body.innerHTML;
 }
-
