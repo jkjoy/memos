@@ -102,10 +102,10 @@ window.onload = function() {
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
             <div class="card-text content mt-0 mb-3">
- <p> ${processedContent}</p>        <div class="post-content-gallery ${gridClass}">
+ <p> ${processedContent}</p> 
+            </div>       <div class="post-content-gallery ${gridClass}">
                               ${resourceElement}     
                         </div>
-            </div>
             <div class="post-meta flex-grow-1 d-flex align-items-end">
               <div class="me-auto">
                 <!-- posted date -->
