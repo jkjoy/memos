@@ -107,9 +107,9 @@ window.onload = function() {
           <div class="card-body d-flex flex-column">
             <div class="card-text content mt-0 mb-3">
               <p> ${processedContent}</p> <br>
-               <div class="inner ${gridClass}">
-                              ${resourceElement}     
-                        </div>
+                 </div>
+                 <div class="inner ${gridClass}">
+                              ${resourceElement}  
                     </div>    
             <div class="post-meta flex-grow-1 d-flex align-items-end">
               <div class="me-auto">
