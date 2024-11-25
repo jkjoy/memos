@@ -217,7 +217,7 @@ img {
 } 
 
 .inner .gallery {
-    width: 90%;
+    width: 100%;
     display: flex;
     flex-flow: wrap;
     gap: 5px 10px;
