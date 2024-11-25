@@ -102,7 +102,7 @@ window.onload = function() {
             // 创建 memo HTML 字符串，包括图片和内容
             htmlString += `
     <article class="card-wrapper card">
-       <div class="row g-0 flex-md-row-reverse">
+       <div class="talks row g-0 flex-md-row-reverse">
         <div class="col-md-12 ">
           <div class="card-body d-flex flex-column">
             <div class="card-text content mt-0 mb-3">
@@ -256,6 +256,6 @@ img {
     object-fit: cover; /* 纭繚鍥剧墖濉厖鏁翠釜瀹瑰櫒 */
     object-position: center; /* 灞呬腑瑁佸壀 */
   }
-  
+.talks{border:0;background:var(--card-bg);box-shadow:var(--card-shadow)}  
 `;
 insertCSS(cssCode);
