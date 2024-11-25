@@ -71,10 +71,10 @@ window.onload = function() {
                             // 检查链接是否为图片文件
                             if (/\.(jpeg|jpg|gif|png|bmp|webp)/i.test(resourceUrl)) {
                                 resourceElement += `
-                                <div class="gallery"><div class="picture-container">
+                                <div class="picture-container">
                                 <a href="${resourceUrl}" target="_blank">
                                 <img src="${resourceUrl}" class="img-thumbnail">
-                                </a></div></div>
+                                </a></div>
                                 `;
                                 imageCount++;
                             } else {
@@ -109,8 +109,9 @@ window.onload = function() {
               <p> ${processedContent}</p> <br>
                  </div>
                  <div class="inner ${gridClass}">
+                 <div class="gallery">
                               ${resourceElement}  
-                    </div>    
+                    </div>  </div>    
             <div class="post-meta flex-grow-1 d-flex align-items-end">
               <div class="me-auto">
                 <i class="far fa-calendar fa-fw me-1"></i>
