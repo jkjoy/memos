@@ -2,8 +2,7 @@ const memo = {
     host: 'https://memos.ee', // 确保这个值是正确的
     limit: '100',
     creatorId: '1',
-    domId: '#posts',
-    twikoo: 'https://t.memos.ee'
+    domId: '#posts'
 };
 
 if (typeof memos !== "undefined") {
