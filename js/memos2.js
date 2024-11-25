@@ -48,7 +48,7 @@ window.onload = function() {
                 let match;
                 while ((match = regex.exec(content)) !== null) {
                     const imageUrl = match[1];
-                    resourceElement += `<figure class="gallery-thumbnail aspectratio" style="--aspectratio: 3024 / 4032;"><img src="${imageUrl}" data-fancybox="img" class="thumbnail-image g-alias-imgblock"> </figure>`;
+                    resourceElement += `<figure class="picture-container"><img src="${imageUrl}" data-fancybox="img" class="img-thumbnail"> </figure>`;
                     imageCount++;
                 }
         
@@ -58,8 +58,8 @@ window.onload = function() {
                             // 检查链接是否为图片文件
                             if (/\.(jpeg|jpg|gif|png|bmp|webp)/i.test(resource.externalLink)) {
                                 resourceElement += `
-                                <figure class="gallery-thumbnail aspectratio" style="--aspectratio: 4032 / 3024;">
-                                    <img class="thumbnail-image g-alias-imgblock" src="${resource.externalLink}" />
+                                <figure class="picture-container">
+                                    <img class="img-thumbnail" src="${resource.externalLink}" />
                                 </figure>
                                 `;
                                 imageCount++;
@@ -70,7 +70,7 @@ window.onload = function() {
                             const resourceUrl = `${memohost}/file/${resource.name}/${resource.filename}`;
                             // 检查链接是否为图片文件
                             if (/\.(jpeg|jpg|gif|png|bmp|webp)/i.test(resourceUrl)) {
-                                resourceElement += `<a href="${resourceUrl}" target="_blank"><img src="${resourceUrl}" class="thumbnail-image g-alias-imgblock"></a>`;
+                                resourceElement += `<a href="${resourceUrl}" target="_blank"><img src="${resourceUrl}" class="img-thumbnail"></a>`;
                                 imageCount++;
                             } else {
                                 resourceElement += `<a href="${resourceUrl}" target="_blank">点击下载</a>`;
@@ -97,28 +97,28 @@ window.onload = function() {
             // 创建 memo HTML 字符串，包括图片和内容
             htmlString += `
     <article class="card-wrapper card">
-      <a href="${getMemoUrl(uid)}" target="_blank" class="post-preview row g-0 flex-md-row-reverse">
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
             <div class="card-text content mt-0 mb-3">
               <p> ${processedContent}</p> 
-               <div class="post-content-gallery ${gridClass}">
+               <div class="${gridClass}">
                               ${resourceElement}     
-                        </div></div>    
+                        </div>
+                    </div>    
             <div class="post-meta flex-grow-1 d-flex align-items-end">
               <div class="me-auto">
                 <i class="far fa-calendar fa-fw me-1"></i>
+                <a href="${getMemoUrl(uid)}" target="_blank">
 <time
   data-ts="${new Date(createTime).toLocaleString()}"
   data-df="YYYY/MM/DD"
 >
 ${new Date(createTime).toLocaleString()}
-</time>   
+</time>      </a>
               </div>
             </div>
           </div>
         </div>
-      </a>
             </article>`;
         });
         return htmlString;
@@ -179,3 +179,79 @@ function processLinks(html) {
     });
     return doc.body.innerHTML;
 }
+
+function insertCSS(cssCode) {
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.textContent = cssCode;
+    document.head.appendChild(style);
+}
+const cssCode = `
+  .nav-links {
+    display: grid; /* 使用 Grid 布局 */
+    place-items: center; /* 水平和垂直居中 */
+    width: 100%; /* 设置宽度 */
+    height: 50px; /* 设置高度，根据需要调整 */
+}
+
+div pre code {
+  /* 迫使文字断行 */
+  white-space: pre-wrap; /* CSS3 */
+  word-wrap: break-word; /* 老版本的浏览器 */
+  overflow-wrap: break-word;  
+  /* 指定如何断行 */
+  word-break: break-all;  
+  word-break: break-word;  
+}
+div p a {
+  word-break: break-all;  
+  word-break: break-word;  
+}
+img {
+  object-fit: cover; /* 保持图片的纵横比，但会将图片裁剪以填充容器 */
+  object-position: center; /* 保证中央部分 */
+} 
+
+.inner .gallery {
+    width: 100%;
+    display: flex;
+    flex-flow: wrap;
+    gap: 10px 20px;
+    padding-bottom: 30px;
+  }
+  
+  .inner .gallery .picture-container {
+    min-width: 200px;
+    flex: 0 0 calc(33.333% - 13.333px);
+    aspect-ratio: 1 / 1; /* 浣垮鍣ㄤ繚鎸佹鏂瑰舰 */
+  }
+  
+  @media screen and (max-width: 736px) {
+    .inner .gallery .picture-container {
+      flex: 0 0 calc(50% - 20px);
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .inner .gallery .picture-container {
+      flex: 0 0 100%;
+    }
+  }
+  
+  .inner .gallery .picture-container a {
+    border: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .inner .gallery .picture-container a .img-thumbnail {
+    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 纭繚鍥剧墖濉厖鏁翠釜瀹瑰櫒 */
+    object-position: center; /* 灞呬腑瑁佸壀 */
+  }
+  
+`;
+insertCSS(cssCode);
