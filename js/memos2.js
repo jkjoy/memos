@@ -70,7 +70,12 @@ window.onload = function() {
                             const resourceUrl = `${memohost}/file/${resource.name}/${resource.filename}`;
                             // 检查链接是否为图片文件
                             if (/\.(jpeg|jpg|gif|png|bmp|webp)/i.test(resourceUrl)) {
-                                resourceElement += `<a href="${resourceUrl}" target="_blank"><img src="${resourceUrl}" class="img-thumbnail"></a>`;
+                                resourceElement += `
+                                <div class="gallery"><div class="picture-container">
+                                <a href="${resourceUrl}" target="_blank">
+                                <img src="${resourceUrl}" class="img-thumbnail">
+                                </a></div></div>
+                                `;
                                 imageCount++;
                             } else {
                                 resourceElement += `<a href="${resourceUrl}" target="_blank">点击下载</a>`;
@@ -161,7 +166,7 @@ ${new Date(createTime).toLocaleString()}
             }
         });
     }  
-    window.ViewImage && ViewImage.init('.post-content img');
+    window.ViewImage && ViewImage.init('.inner img');
 };
 
 function getMemoUrl(uid) {
