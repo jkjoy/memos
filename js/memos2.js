@@ -98,17 +98,16 @@ window.onload = function() {
             // 创建 memo HTML 字符串，包括图片和内容
             htmlString += `
     <article class="card-wrapper card">
-      <a href="${getMemoUrl(uid)}" class="post-preview row g-0 flex-md-row-reverse">
+      <a href="${getMemoUrl(uid)}" target="_blank" class="post-preview row g-0 flex-md-row-reverse">
         <div class="col-md-12">
           <div class="card-body d-flex flex-column">
             <div class="card-text content mt-0 mb-3">
- <p> ${processedContent}</p> 
-            </div>       <div class="post-content-gallery ${gridClass}">
+              <p> ${processedContent}</p> 
+               <div class="post-content-gallery ${gridClass}">
                               ${resourceElement}     
-                        </div>
+                        </div></div>    
             <div class="post-meta flex-grow-1 d-flex align-items-end">
               <div class="me-auto">
-                <!-- posted date -->
                 <i class="far fa-calendar fa-fw me-1"></i>
 <time
   data-ts="${new Date(createTime).toLocaleString()}"
