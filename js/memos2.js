@@ -217,11 +217,11 @@ img {
 } 
 
 .inner .gallery {
-    width: 100%;
+    width: 90%;
     display: flex;
     flex-flow: wrap;
-    gap: 10px 20px;
-    padding-bottom: 30px;
+    gap: 5px 10px;
+    padding-bottom: 15px;
   }
   
   .inner .gallery .picture-container {
@@ -253,8 +253,8 @@ img {
     border-radius: 4px;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 纭繚鍥剧墖濉厖鏁翠釜瀹瑰櫒 */
-    object-position: center; /* 灞呬腑瑁佸壀 */
+    object-fit: cover; 
+    object-position: center;  
   }
 .talks{border:0;background:var(--card-bg);box-shadow:var(--card-shadow)}  
 `;
