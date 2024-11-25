@@ -196,11 +196,8 @@ const cssCode = `
 }
 
 div pre code {
-  /* 迫使文字断行 */
   white-space: pre-wrap; /* CSS3 */
-  word-wrap: break-word; /* 老版本的浏览器 */
   overflow-wrap: break-word;  
-  /* 指定如何断行 */
   word-break: break-all;  
   word-break: break-word;  
 }
@@ -209,8 +206,8 @@ div p a {
   word-break: break-word;  
 }
 img {
-  object-fit: cover; /* 保持图片的纵横比，但会将图片裁剪以填充容器 */
-  object-position: center; /* 保证中央部分 */
+  object-fit: cover;
+  object-position: center;
 } 
 
 .inner .gallery {
@@ -224,7 +221,7 @@ img {
   .inner .gallery .picture-container {
     min-width: 200px;
     flex: 0 0 calc(33.333% - 13.333px);
-    aspect-ratio: 1 / 1; /* 浣垮鍣ㄤ繚鎸佹鏂瑰舰 */
+    aspect-ratio: 1 / 1; 
   }
   
   @media screen and (max-width: 736px) {
