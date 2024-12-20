@@ -45,6 +45,24 @@ window.onload = function() {
             console.error('Error fetching user data:', error);
         });
 
+        function getLocationHtml(location) {
+            if (location && location.placeholder) {
+                const placeholder = location.placeholder;
+                // 提取最后两位（省份和国家）
+                const parts = placeholder.split(',').map(part => part.trim());
+                if (parts.length >= 2) {
+                    const province = parts[parts.length - 2]; // 倒数第二位是省份
+                    const country = parts[parts.length - 1];  // 最后一位是国家
+                    const locationSvg = `
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+                            <path d="M12 20.8995L16.9497 15.9497C19.6834 13.2161 19.6834 8.78392 16.9497 6.05025C14.2161 3.31658 9.78392 3.31658 7.05025 6.05025C4.31658 8.78392 4.31658 13.2161 7.05025 15.9497L12 20.8995ZM12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364L12 23.7279ZM12 13C13.1046 13 14 12.1046 14 11C14 9.89543 13.1046 9 12 9C10.8954 9 10 9.89543 10 11C10 12.1046 10.8954 13 12 13ZM12 15C9.79086 15 8 13.2091 8 11C8 8.79086 9.79086 7 12 7C14.2091 7 16 8.79086 16 11C16 13.2091 14.2091 15 12 15Z"></path>
+                        </svg>`;
+                    return `<p class="location">${locationSvg} ${country}, ${province}</p>`; // 重新排序为“国家, 省份”
+                }
+            }
+            return '';
+        }
+
         function formatHTML(memosData) {
             let htmlString = '';
             memosData.forEach(memo => {
@@ -52,6 +70,8 @@ window.onload = function() {
                 let resourceElement = '';
                 let imageCount = 0;
         
+                const locationHtml = getLocationHtml(memo.location);
+
                 // 尝试从 memo 内容中匹配图片 URL
                 const regex = /!\[.*?\]\((https?:\/\/.+?)\)/gi;
                 let match;
@@ -121,11 +141,15 @@ window.onload = function() {
                               ${resourceElement}     
                         </div>
                     </section>
+                    ${locationHtml}
                     <footer class="post-footer g-clear-both">
                         <div class="post-info g-left g-txt-ellipsis">
                         <a href="${getMemoUrl(uid)}" target="_blank">   
-                            <span clsss="post-date">${new Date(createTime).toLocaleString()}</span>
+                            <span clsss="post-date">${new Date(createTime).toLocaleString()}</span>                            
                         </a>
+                        <div class="post-fun g-right">
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" width="20" height="20" viewBox="0 0 512 512"><g><circle r="50" cy="255" cx="355" fill="#576b95" /><circle r="50" cy="255" cx="155" fill="#576b95" /></g></svg>
+                        </div>
                         </div>
                     </footer>
                     <aside class="post-aside show">
