@@ -144,7 +144,7 @@ window.onload = function() {
                     ${locationHtml}
                     <footer class="post-footer g-clear-both">
                         <div class="post-info g-left g-txt-ellipsis">
-                        <a href="${memo.host}/m/${formatteduid}" target="_blank">   
+                        <a href="${memohost}/m/${formatteduid}" target="_blank">   
                             <span clsss="post-date">${new Date(createTime).toLocaleString()}</span>                            
                         </a>
                         <div class="post-fun g-right">
@@ -154,7 +154,7 @@ window.onload = function() {
                     </footer>
                     <aside class="post-aside show">
                             <div class="fun-area post-comment g-clear-both index show">
-                                <div data-url="${memo.host}/m/${formatteduid}" class="post">
+                                <div data-url="${memohost}/m/${formatteduid}" class="post">
                                 <ul class="comment-list"></ul>
                                 </div> 
                             </div>
