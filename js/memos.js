@@ -71,7 +71,7 @@ window.onload = function() {
                 let imageCount = 0;
         
                 const locationHtml = getLocationHtml(memo.location);
-
+                const formatteduid = memo.name.split('/')[1];
                 // 尝试从 memo 内容中匹配图片 URL
                 const regex = /!\[.*?\]\((https?:\/\/.+?)\)/gi;
                 let match;
@@ -125,7 +125,7 @@ window.onload = function() {
 
             // 创建 memo HTML 字符串，包括图片和内容
             htmlString += `
-             <article id="post-${uid}" class="g-clear-both">
+             <article id="post-${formatteduid}" class="g-clear-both">
                 <div class="post-avatar g-left">
                     <a href="${userurl}" target="_blank">   
                         <img class="g-alias-imgblock" src="${avatarurl}" loading="lazy" style="width: 40px; height: 40px;" alt=""/>
@@ -295,7 +295,7 @@ window.onload = function() {
 
 function getMemoUrl(uid) {
     if (uid && memo.host) {
-        return `${memo.host}/m/${uid}`;
+        return `${memo.host}/m/${formatteduid}`;
     } else {
         return '#';
     }
