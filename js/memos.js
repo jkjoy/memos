@@ -144,7 +144,7 @@ window.onload = function() {
                     ${locationHtml}
                     <footer class="post-footer g-clear-both">
                         <div class="post-info g-left g-txt-ellipsis">
-                        <a href="${getMemoUrl(uid)}" target="_blank">   
+                        <a href="${memo.host}/m/${formatteduid}" target="_blank">   
                             <span clsss="post-date">${new Date(createTime).toLocaleString()}</span>                            
                         </a>
                         <div class="post-fun g-right">
@@ -154,7 +154,7 @@ window.onload = function() {
                     </footer>
                     <aside class="post-aside show">
                             <div class="fun-area post-comment g-clear-both index show">
-                                <div data-url="${getMemoUrl(uid)}" class="post">
+                                <div data-url="${memo.host}/m/${formatteduid}" class="post">
                                 <ul class="comment-list"></ul>
                                 </div> 
                             </div>
@@ -292,14 +292,6 @@ window.onload = function() {
         
     window.ViewImage && ViewImage.init('.post-content img');
 };
-
-function getMemoUrl(uid) {
-    if (uid && memo.host) {
-        return `${memo.host}/m/${formatteduid}`;
-    } else {
-        return '#';
-    }
-}
 
 function processLinks(html) {
     const parser = new DOMParser();
