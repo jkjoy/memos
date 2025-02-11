@@ -285,7 +285,7 @@ window.onload = function() {
     }
 
     function fetchMemos() {
-        return fetch('https://memos.ee/api/v1/memos?pageSize=1000&filter=visibilities%20==%20[%27PUBLIC%27]%20%26%26%20creator%20==%20%27users/1%27')
+        return fetch('https://memos.ee/api/v1/memos?pageSize=1000&parent=users/1')
             .then(response => response.json())
             .then(data => data.memos)
             .catch(error => {
