@@ -12,7 +12,7 @@
                 <div id="banner-background" class="existbg" style="--banner_background_image_position_dark: 90%;"></div>
                 <div id="banner-info" class="g-clear-both">
                     <div class="name g-left">
-                        <strong class="font-options g-right g-user-select zh" >浪子的朋友圈</strong>
+                        <strong class="font-options g-right g-user-select zh" >浪子的留言本</strong>
                     </div>
                     <div class="avatar g-right">
                         <img class="g-alias-imgblock" src="favicon.ico" loading="lazy" draggable="false" alt=""/>
@@ -21,24 +21,25 @@
                 <div id="banner-subinfo" class="g-txt-ellipsis g-user-select"></div>
             </header>
             <main>
-                    <div id="posts"></div>
-                    <script>
-                        const memos = {
-                            host: 'https://memos.ee',
-                            limit: '1000',
-                            creatorId: '1',
-                            domId: '#posts',
-                            twikoo: 'https://t.memos.ee',
-                        };
-                    </script>
-            <script src="https://registry.npmmirror.com/twikoo/1.6.31/files/dist/twikoo.all.min.js"></script>                    
-            <script src="js/marked.min.js"></script> 
-            <script src="js/view-image.min.js"></script>          
-            <script src="js/memos.js"></script>   
+                <div id="tcomment"></div>
+                <script src="https://registry.npmmirror.com/twikoo/1.6.31/files/dist/twikoo.all.min.js"></script>       
+                <script>
+                twikoo.init({
+                  envId: 'https://t.memos.ee', // 腾讯云环境填 envId；Vercel 环境填地址（https://xxx.vercel.app）
+                  el: '#tcomment', // 容器元素
+                  // region: 'ap-guangzhou', // 环境地域，默认为 ap-shanghai，腾讯云环境填 ap-shanghai 或 ap-guangzhou；Vercel 环境不填
+                  // path: location.pathname, // 用于区分不同文章的自定义 js 路径，如果您的文章路径不是 location.pathname，需传此参数
+                  // lang: 'zh-CN', // 用于手动设定评论区语言，支持的语言列表 https://github.com/twikoojs/twikoo/blob/main/src/client/utils/i18n/index.js
+                })
+                </script>
+                         
+      
             </main>
         </div>
         <footer>
+            
             <div class="copyright">Powered  by  <a href="https://memos.ee" target="_blank"> Memos </a></div>
+ 
         </footer>
         <script defer src="https://umami.ittst.top/script.js" data-website-id="ebc075a0-3e09-48d0-96b3-342c44e2f832"></script>         
     </body>
