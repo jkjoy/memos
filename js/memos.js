@@ -26,7 +26,7 @@ window.onload = function() {
        .then(response => response.json())
        .then(userData => {
             avatarurl = `${memo.host}${userData.avatarUrl}`;
-            memoname = userData.nickname;
+            memoname = userData.displayName;
             userurl = `${memo.host}/u/${userData.username}`;
             description = userData.description;
 
