@@ -1,0 +1,266 @@
+.comment-form-shell {
+  overflow: visible;
+}
+
+.comment-form-shell .twikoo {
+  color: var(--text_color_primary);
+  font-size: var(--post_font_size_primary);
+  line-height: var(--post_line_height_primary);
+}
+
+.comment-form-shell .twikoo,
+.comment-form-shell .twikoo * {
+  box-sizing: border-box;
+}
+
+.comment-form-shell .twikoo .tk-submit {
+  margin-top: 0;
+}
+
+.comment-form-shell .twikoo .tk-row:first-child {
+  align-items: flex-start;
+}
+
+.comment-form-shell .twikoo .tk-avatar {
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: rgba(144, 147, 153, 0.13);
+}
+
+.comment-form-shell .twikoo .tk-avatar .tk-avatar-img,
+.comment-form-shell .twikoo .tk-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.comment-form-shell .twikoo .tk-input {
+  min-width: 0;
+}
+
+.comment-form-shell .twikoo .tk-meta-input {
+  margin-bottom: 8px;
+}
+
+.comment-form-shell .twikoo .tk-meta-input .el-input + .el-input {
+  margin-left: 8px;
+}
+
+.comment-form-shell .twikoo .el-input__inner,
+.comment-form-shell .twikoo .el-textarea__inner {
+  border-color: var(--post_splitline_color);
+  border-radius: 5px;
+  color: var(--text_color_primary);
+  background-color: var(--background_color_container);
+  font-family: inherit;
+}
+
+.comment-form-shell .twikoo .el-input__inner:focus,
+.comment-form-shell .twikoo .el-textarea__inner:focus {
+  border-color: rgba(87, 107, 149, 0.5);
+  box-shadow: 0 0 0 3px rgba(87, 107, 149, 0.1);
+}
+
+.comment-form-shell .twikoo .el-input-group__append,
+.comment-form-shell .twikoo .el-input-group__prepend {
+  border-color: var(--post_splitline_color);
+  color: var(--text_color_secondary);
+  background-color: var(--button_background_color);
+}
+
+.comment-form-shell .twikoo .tk-row.actions {
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 8px 0 8px 38px;
+}
+
+.comment-form-shell .twikoo .tk-row-actions-start,
+.comment-form-shell .twikoo .tk-row-actions-start + div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.comment-form-shell .twikoo .tk-submit-action-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 0;
+  color: var(--text_color_secondary);
+}
+
+.comment-form-shell .twikoo .el-button {
+  border-radius: 5px;
+  font-family: inherit;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, scale 150ms ease-out;
+}
+
+.comment-form-shell .twikoo .el-button:active {
+  scale: 0.96;
+}
+
+.comment-form-shell .twikoo .el-button--primary {
+  border-color: var(--text_color_highlight);
+  background-color: var(--text_color_highlight);
+}
+
+.comment-form-shell .twikoo .tk-comments-title {
+  margin-top: 10px;
+  color: var(--text_color_secondary);
+  font-size: var(--post_font_size_secondary);
+  line-height: var(--post_line_height_secondary);
+}
+
+.comment-form-shell .twikoo .tk-comment {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--post_splitline_color);
+}
+
+.comment-form-shell .twikoo .tk-main {
+  min-width: 0;
+}
+
+.comment-form-shell .twikoo .tk-nick {
+  color: var(--text_color_highlight);
+}
+
+.comment-form-shell .twikoo .tk-time,
+.comment-form-shell .twikoo .tk-action,
+.comment-form-shell .twikoo .tk-footer {
+  color: var(--text_color_secondary);
+  font-size: var(--post_font_size_secondary);
+}
+
+.comment-form-shell .twikoo .tk-content {
+  overflow-wrap: anywhere;
+}
+
+.comment-form-shell .twikoo .OwO .OwO-body {
+  width: min(420px, calc(100vw - 24px));
+  max-width: 420px;
+}
+
+@media screen and (max-width: 550px) {
+  .g-width {
+    min-width: 0;
+  }
+
+  #banner {
+    height: 230px;
+  }
+
+  #banner,
+  #container,
+  main,
+  #posts {
+    width: 100%;
+  }
+
+  #posts {
+    --post_lr_offset: 6px;
+    --post_avatar_size: 36px;
+    --post_avatar_offset: 40px;
+    padding-top: 24px;
+  }
+
+  #posts > article {
+    padding-right: var(--post_lr_offset);
+    padding-left: var(--post_lr_offset);
+  }
+
+  #posts > article > div.post-avatar {
+    margin-right: 4px;
+  }
+
+  #posts > article > div.post-main {
+    width: calc(100% - var(--post_avatar_offset));
+  }
+
+  #posts > article > div.post-main > section.post-content {
+    padding-bottom: 9px;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  #posts > article > div.post-main > footer.post-footer {
+    min-height: 38px;
+    padding-bottom: 8px;
+  }
+
+  #posts > article > div.post-main > aside.post-aside {
+    margin-bottom: 9px;
+  }
+
+  #posts > article > div.post-main > aside.post-aside > div.fun-area {
+    padding: 6px;
+  }
+
+  .comment-form-shell {
+    margin-top: 7px;
+    padding-top: 8px;
+  }
+
+  .comment-form-shell .twikoo .tk-meta-input {
+    display: block;
+  }
+
+  .comment-form-shell .twikoo .tk-meta-input .el-input {
+    width: 100%;
+  }
+
+  .comment-form-shell .twikoo .tk-meta-input .el-input + .el-input {
+    margin-top: 8px;
+    margin-left: 0;
+  }
+
+  .comment-form-shell .twikoo .tk-row.actions {
+    flex-wrap: wrap;
+    margin-left: 0;
+  }
+
+  .comment-form-shell .twikoo .tk-row-actions-start {
+    flex: 1 1 100%;
+  }
+
+  .comment-form-shell .twikoo .tk-row-actions-start + div {
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .comment-form-shell .twikoo .OwO .OwO-body {
+    left: -36px;
+    width: calc(100vw - 20px);
+  }
+}
+
+@media screen and (max-width: 360px) {
+  #posts {
+    --post_lr_offset: 4px;
+    --post_avatar_size: 32px;
+    --post_avatar_offset: 36px;
+  }
+
+  #posts > article > div.post-avatar {
+    margin-right: 4px;
+  }
+
+  #posts > article > div.post-main > aside.post-aside > div.fun-area {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+
+  .post-comment-toggle {
+    width: 38px;
+    height: 38px;
+  }
+}

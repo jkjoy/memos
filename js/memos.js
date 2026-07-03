@@ -181,7 +181,7 @@ window.onload = function() {
              <article id="post-${formatteduid}" class="g-clear-both">
                 <div class="post-avatar g-left">
                     <a href="${userurl}" target="_blank">   
-                        <img class="g-alias-imgblock" src="${avatarurl}" loading="lazy" style="width: 40px; height: 40px;" alt=""/>
+                        <img class="g-alias-imgblock" src="${avatarurl}" loading="lazy" alt=""/>
                     </a>
                 </div>
                 <div class="post-main g-right">
